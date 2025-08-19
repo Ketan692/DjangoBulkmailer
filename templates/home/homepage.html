@@ -1,0 +1,74 @@
+{% extends "base/base.html" %}
+{% load tz %}
+{% block title %}Home Page{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Welcome to Django Bulkemailer!</h1>
+
+{% if user.is_authenticated %}
+
+
+<div class="container mt-5">
+    <h2 class="mb-4">📧 Django BulkMailer</h2>
+
+    <!-- Django Messages -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="senderEmail" class="form-label">Sender Email</label>
+            <input type="email" class="form-control" id="senderEmail" value="{{ sender_email }}" readonly>
+        </div>
+
+        <div class="mb-3">
+            {{ form.subject.label_tag }}
+            {{ form.subject }}
+            {% for error in form.subject.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.content.label_tag }}
+            {{ form.content }}
+            {% for error in form.content.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            {{ form.recipients.label_tag }}
+            {{ form.recipients }}
+            {% for error in form.recipients.errors %}
+                <div class="text-danger small">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send Emails</button>
+    </form>
+</div>
+
+
+{% else %}
+  <!-- If user is not logged in -->
+  <div class="about-section">
+    <p class="welcome-message">
+      <strong>About Django Bulkemailer:</strong><br>
+      Django BulkMailer is a web application built with Django that enables users to send bulk emails efficiently and securely. It offers features like email composition, recipient list uploads, and delivery tracking, making it perfect for newsletters, marketing campaigns, and event invitations. This project showcases practical skills in Django development, email automation, and user authentication.
+    </p>
+    <p class="welcome-message">
+      Please <a href="{% url 'login' %}">login</a> or <a href="{% url 'signup' %}">sign up</a> to manage your tasks.
+    </p>
+  </div>
+{% endif %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+{% endblock %}
