@@ -88,6 +88,3 @@ MIT License
 
 [Ketan692](https://github.com/Ketan692)
 
----
-
- `settings.py` to configure your email backend:
